@@ -1,0 +1,30 @@
+.header {
+  font-size: 3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-align: left;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+}
+
+.header-divider {
+  width: calc(100% - 2rem);
+}
+
+a.plain-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.plain-link:visited {
+  color: inherit;
+}
+
+a.plain-link:hover {
+  color: #474747;
+}
+
+body {
+  background-color: #fff5f5;
+}
