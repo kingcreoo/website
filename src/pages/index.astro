@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+
+const openSourceText = "<open source>";
 ---
 
 <html lang="en">
@@ -10,8 +12,18 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 		<title>Creoo Testing Lab</title>
 	</head>
-	<body>
-    <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
-    <hr class="header-divider">
-	</body>
+  <body>
+       <div class="header-container">
+         <img src="/images/rune-1.png" alt="Rune" class="header-image">
+         <div class="texts">
+            <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
+            <div class="header-2">
+              <span>Welcome to my laboratory, wanderer.</span>
+              <span class="right-text">Testing text.</span>
+            </div>
+         </div>
+       </div>
+
+      <hr class="header-divider">
+  </body>
 </html>
