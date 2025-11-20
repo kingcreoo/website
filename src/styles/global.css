@@ -4,7 +4,7 @@
   text-transform: uppercase;
   #letter-spacing: 0.1em;
   text-align: left;
-  color: #1C1D21;
+   color: #CC0000;
   margin: 0;
 }
 
@@ -14,14 +14,14 @@
   align-items: center;
   font-size: 1.2rem;
   font-weight: 500;
-  color: #1C1D21;
+   color: #CC0000;
   margin: 0;
   width: 100%;
 }
 
 .header-divider {
   width: calc(100% - 2rem);
-  color: #1C1D21;
+   color: #CC0000;
 }
 
 .header-container {
@@ -57,7 +57,7 @@ a.plain-link:visited {
 }
 
 a.plain-link:hover {
-  color: #474747;
+   color: #CC0000;
 }
 
 .catalog-container {
@@ -75,7 +75,7 @@ a.plain-link:hover {
   text-transform: uppercase;
   #letter-spacing: 0.1em;
   text-align: center;
-  color: #1C1D21;
+   color: #CC0000;
   margin: 0 0 2rem 0;
   margin-right: 20rem;
 }
@@ -96,7 +96,7 @@ a.plain-link:hover {
   width: 150px;
   height: 100px;
   object-fit: cover;
-  border: 2px solid red;
+  border: 2px solid #CC0000;
 }
 
 .article-details {
@@ -107,19 +107,19 @@ a.plain-link:hover {
   font-size: 1.2rem;
   font-weight: 500;
   text-transform: uppercase;
-  color: #1C1D21;
+   color: #CC0000;
   margin: 0 0 0.5rem 0;
 }
 
 .article-description {
   font-size: 1rem;
-  color: #1C1D21;
+   color: #CC0000;
   margin: 0 0 0.5rem 0;
 }
 
 .article-date {
   font-size: 0.9rem;
-  color: #75798a;
+   color: #CC0000;
   font-family: monospace;
 }
 
@@ -128,5 +128,35 @@ a.plain-link:hover {
 }
 
 body {
-  background-color: #faefd4;
+   background-color: #ffffff;
+}
+
+.main-flex-container {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2rem;
+  padding: 0 5%;
+  gap: 5%;
+}
+
+.caesar-container {
+  flex: 0 0 25%;
+  display: flex;
+  justify-content: center;
+}
+
+.caesar-ascii {
+  color: #CC0000;
+  font-size: 0.35rem;
+  line-height: 0.35rem;
+  margin: 0;
+  white-space: pre;
+}
+
+.catalog-wrapper {
+  flex: 0 0 40%;
+}
+
+.catalog-title-no-margin {
+  margin-right: 0;
 }

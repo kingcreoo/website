@@ -1,7 +1,8 @@
 ---
 import "../styles/global.css";
+import { CaesarAscii } from "../data/ascii.js";
 
-const openSourceText = "<open source>";
+const OpenSourceText = "<open source>";
 ---
 
 <html lang="en">
@@ -26,36 +27,41 @@ const openSourceText = "<open source>";
 
        <hr class="header-divider">
 
-       <div class="catalog-container">
-         <h1 class="catalog-title">Featured Catalog</h1>
-         <div class="catalog-content">
-           <div class="article-card">
-             <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
-             <div class="article-details">
-               <h3 class="article-title">Sample Article Title</h3>
-               <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
-               <span class="article-date">November 14, 2024</span>
+       <div class="main-flex-container">
+         <div class="caesar-container">
+           <pre class="caesar-ascii">{CaesarAscii}</pre>
+         </div>
+         <div class="catalog-wrapper">
+           <h1 class="catalog-title catalog-title-no-margin">Featured Catalog</h1>
+           <div class="catalog-content">
+             <div class="article-card">
+               <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
+               <div class="article-details">
+                 <h3 class="article-title">Sample Article Title</h3>
+                 <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
+                 <span class="article-date">November 14, 2024</span>
+               </div>
              </div>
-           </div>
 
-           <div class="article-card">
-             <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
-             <div class="article-details">
-               <h3 class="article-title">Sample Article Title</h3>
-               <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
-               <span class="article-date">November 14, 2024</span>
+             <div class="article-card">
+               <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
+               <div class="article-details">
+                 <h3 class="article-title">Sample Article Title</h3>
+                 <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
+                 <span class="article-date">November 14, 2024</span>
+               </div>
              </div>
-           </div>
 
-            <div class="article-card">
-             <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
-             <div class="article-details">
-               <h3 class="article-title">Sample Article Title</h3>
-               <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
-               <span class="article-date">November 14, 2024</span>
+             <div class="article-card">
+               <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
+               <div class="article-details">
+                 <h3 class="article-title">Sample Article Title</h3>
+                 <p class="article-description">A brief description about the article covering topics like projects or world geopolitics.</p>
+                 <span class="article-date">November 14, 2024</span>
+               </div>
              </div>
-           </div>
 
+           </div>
          </div>
        </div>
   </body>
