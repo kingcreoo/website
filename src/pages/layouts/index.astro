@@ -1,0 +1,51 @@
+---
+import "../../styles/global.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Layout Switcher</title>
+  </head>
+  <body>
+    <div class="switcher">
+      <h1>LAYOUT SWITCHER</h1>
+      <hr />
+      <ul>
+        <li><a href="/layouts/a">A — left sidebar 2×3 icon grid, center catalog (1 big + smalls), right logs column</a></li>
+        <li><a href="/layouts/b">B — header icon row, left catalog (1 big + smalls), right logs column</a></li>
+        <li><a href="/layouts/c">C — header has about + open source (medium icons), left sidebar has art wall + construction (big icons, single column), center catalog, right logs</a></li>
+      </ul>
+    </div>
+  </body>
+</html>
+
+<style>
+  .switcher {
+    max-width: 600px;
+    margin: 2rem auto;
+    font-family: serif;
+  }
+  .switcher h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1C1D21;
+  }
+  .switcher ul {
+    list-style: none;
+    padding: 0;
+  }
+  .switcher li {
+    margin-bottom: 1rem;
+  }
+  .switcher a {
+    color: #1C1D21;
+    font-size: 1.1rem;
+    text-decoration: underline;
+  }
+  .switcher a:hover {
+    color: #474747;
+  }
+</style>
