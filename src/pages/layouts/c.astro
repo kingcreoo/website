@@ -33,21 +33,8 @@ import "../../styles/global.css";
     <hr class="header-divider">
 
     <main class="lc-main">
-      <aside class="lc-sidebar">
-        <a href="#" class="lc-icon-btn">
-          <img src="/images/rune-1.png" alt="Art Wall" class="lc-icon-img" />
-          <span class="lc-icon-label">art wall</span>
-        </a>
-        <a href="#" class="lc-icon-btn">
-          <img src="/images/rune-1.png" alt="Construction" class="lc-icon-img" />
-          <span class="lc-icon-label">construction</span>
-        </a>
-      </aside>
-
-      <div class="lc-col-divider"></div>
-
-      <section class="lc-catalog">
-        <h1 class="catalog-title lc-catalog-title">Featured Catalog</h1>
+      <div class="catalog-container">
+        <h1 class="catalog-title">Featured Catalog</h1>
         <div class="catalog-content">
           <a href="#" class="article-link">
             <div class="article-card lc-article-big">
@@ -93,35 +80,13 @@ import "../../styles/global.css";
             </div>
           </a>
         </div>
+      </div>
 
-        <div class="lc-catalog-link">
-          <a href="/article-catalog" class="full-catalog-link">
-            <span class="bracket-bold">≪</span> see full catalog <span class="bracket-bold">≫</span>
-          </a>
-        </div>
-      </section>
-
-      <div class="lc-col-divider"></div>
-
-      <aside class="lc-logs">
-        <h2 class="lc-logs-title">Recent Logs</h2>
-        <ul class="lc-logs-list">
-          <li class="lc-log-entry"><a href="#">P0302 Misfire<span class="lc-log-date">Mar 15</span></a></li>
-          <li class="lc-log-entry"><a href="#">DR650 Spring Service<span class="lc-log-date">Mar 14</span></a></li>
-          <li class="lc-log-entry"><a href="#">Libreboot T480 Flash Log<span class="lc-log-date">Mar 12</span></a></li>
-          <li class="lc-log-entry"><a href="#">Route Notes: NJ to Maysville<span class="lc-log-date">Mar 10</span></a></li>
-          <li class="lc-log-entry"><a href="#">OSE Week 12<span class="lc-log-date">Mar 8</span></a></li>
-          <li class="lc-log-entry"><a href="#">Cake Wallet New UI<span class="lc-log-date">Mar 6</span></a></li>
-          <li class="lc-log-entry"><a href="#">CV Axle Replacement<span class="lc-log-date">Mar 3</span></a></li>
-          <li class="lc-log-entry"><a href="#">Monero Node Setup<span class="lc-log-date">Feb 28</span></a></li>
-          <li class="lc-log-entry"><a href="#">Ranger Junkyard Find<span class="lc-log-date">Feb 25</span></a></li>
-          <li class="lc-log-entry"><a href="#">Photogrammetry Results<span class="lc-log-date">Feb 22</span></a></li>
-          <li class="lc-log-entry"><a href="#">T480 Battery Swap<span class="lc-log-date">Feb 20</span></a></li>
-          <li class="lc-log-entry"><a href="#">Oil Change Notes<span class="lc-log-date">Feb 18</span></a></li>
-          <li class="lc-log-entry"><a href="#">Chain Tension Adjustment<span class="lc-log-date">Feb 15</span></a></li>
-          <li class="lc-log-entry"><a href="#">WireGuard Tunnel Debug<span class="lc-log-date">Feb 12</span></a></li>
-        </ul>
-      </aside>
+      <div class="catalog-link-container">
+        <a href="/article-catalog" class="full-catalog-link">
+          <span class="bracket-bold">≪</span> see full catalog <span class="bracket-bold">≫</span>
+        </a>
+      </div>
     </main>
 
     <div class="lc-back"><a href="/layouts" class="plain-link">← back to switcher</a></div>
@@ -133,31 +98,31 @@ import "../../styles/global.css";
     font-size: clamp(14px, 1vw, 22px);
   }
 
-  /* ---- HEADER ICON ROW ---- */
-  .lc-header-icons {
+  /* ---- HEADER NAV ICONS ---- */
+  :global(.lc-header-icons) {
     display: flex;
     gap: 1.5rem;
     align-items: flex-start;
     margin-left: auto;
     margin-right: 5rem;
   }
-  .lc-header-btn {
+  :global(.lc-header-btn) {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
     transition: opacity 0.2s ease;
   }
-  .lc-header-btn:hover {
+  :global(.lc-header-btn:hover) {
     opacity: 0.7;
   }
-  .lc-header-btn-img {
+  :global(.lc-header-btn-img) {
     width: 3.5rem;
     height: 3.5rem;
     image-rendering: pixelated;
     margin-bottom: 0.2rem;
   }
-  .lc-header-btn-label {
+  :global(.lc-header-btn-label) {
     font-size: 0.8rem;
     font-weight: 700;
     color: #1C1D21;
@@ -170,68 +135,14 @@ import "../../styles/global.css";
     box-sizing: border-box;
   }
 
-  /* ---- 3-COL GRID ---- */
+  /* ---- MAIN ---- */
   .lc-main {
-    display: grid;
-    grid-template-columns: 12rem 2px 1fr 2px 18rem;
-    height: calc(100vh - 12.5rem);
+    height: calc(100vh - 9rem);
     overflow: hidden;
-    padding: 0 1rem;
+    position: relative;
   }
 
-  /* ---- LEFT SIDEBAR ---- */
-  .lc-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1rem 0;
-    align-items: center;
-  }
-  .lc-icon-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-  .lc-icon-btn:hover {
-    opacity: 0.7;
-  }
-  .lc-icon-img {
-    width: 9rem;
-    height: 9rem;
-    image-rendering: pixelated;
-    margin-bottom: 0.4rem;
-  }
-  .lc-icon-label {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #1C1D21;
-    text-align: center;
-    text-transform: uppercase;
-    background-color: #e8dfc6;
-    padding: 0.2rem 0.6rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* ---- COLUMN DIVIDERS ---- */
-  .lc-col-divider {
-    background-color: #1C1D21;
-    align-self: stretch;
-  }
-
-  /* ---- CENTER CATALOG ---- */
-  .lc-catalog {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem 2rem;
-    overflow: hidden;
-  }
-  .lc-catalog-title {
-    text-align: center;
-  }
+  /* ---- BIG FEATURED ARTICLE ---- */
   .lc-big-thumb {
     width: 12.5rem;
     height: 8.125rem;
@@ -239,52 +150,6 @@ import "../../styles/global.css";
   .lc-article-big {
     padding-bottom: 1rem;
     border-bottom: 1px solid #c8c0ab;
-  }
-  .lc-catalog-link {
-    text-align: center;
-    margin-top: auto;
-    padding-bottom: 1rem;
-  }
-
-  /* ---- RIGHT LOGS ---- */
-  .lc-logs {
-    padding: 1rem 1.5rem;
-    overflow: hidden;
-  }
-  .lc-logs-title {
-    font-size: 1.4rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    text-align: center;
-    color: #1C1D21;
-    margin: 0 0 1rem 0;
-  }
-  .lc-logs-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  .lc-log-entry {
-    border-bottom: 1px solid #ddd5be;
-  }
-  .lc-log-entry a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.45rem 0;
-    text-decoration: none;
-    color: #1C1D21;
-    font-size: 1rem;
-  }
-  .lc-log-entry a:hover {
-    color: #474747;
-  }
-  .lc-log-date {
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: #75798a;
-    flex-shrink: 0;
-    margin-left: 0.5rem;
   }
 
   /* ---- BACK LINK ---- */
