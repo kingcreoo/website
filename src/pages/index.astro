@@ -3,63 +3,151 @@ import "../styles/global.css";
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Creoo Testing Lab</title>
-	</head>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Creoo Testing Lab</title>
+  </head>
   <body>
-      <div class="header-container">
-        <img src="/images/rune-1.png" alt="Rune" class="header-image">
-         <div class="header-texts">
-            <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
-            <div class="header-2">
-              <span>Welcome to my laboratory, wanderer.</span>
-              <span class="right-text">
-                <a href="/open-source" class="open-source-link"><span class="bracket-bold">&lt;</span>open-source<span class="bracket-bold">&gt;</span></a>
-                <span class="version-text">v 0.0.1</span>
-              </span>
+    <div class="header-container">
+      <img src="/images/rune-1.png" alt="Rune" class="header-image">
+      <div class="header-texts">
+        <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
+        <div class="header-2">
+          <span>Welcome to my laboratory, wanderer.</span>
+        </div>
+      </div>
+      <nav class="lc-header-icons">
+        <a href="#" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="About" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">about</span>
+        </a>
+        <a href="#" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Open Source" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">open<br>source</span>
+        </a>
+      </nav>
+    </div>
+
+    <hr class="header-divider">
+
+    <main class="lc-main">
+      <div class="catalog-container">
+        <h1 class="catalog-title">Featured Catalog</h1>
+        <div class="catalog-content">
+          <a href="#" class="article-link">
+            <div class="article-card lc-article-big">
+              <img src="/images/rune-1.png" alt="Featured" class="article-thumbnail lc-big-thumb" />
+              <div class="article-details">
+                <h3 class="article-title">The Lowtech Loadout</h3>
+                <p class="article-description">Why a Librebooted ThinkPad and a beater Subaru constitute a deliberate philosophy.</p>
+                <span class="article-date">March 10, 2026</span>
+              </div>
             </div>
-          </div>
+          </a>
+
+          <a href="#" class="article-link">
+            <div class="article-card">
+              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
+              <div class="article-details">
+                <h3 class="article-title">About This Site</h3>
+                <p class="article-description">Its purpose, how it was made, and why it's on pause.</p>
+                <span class="article-date">November 21, 2025</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="article-link">
+            <div class="article-card">
+              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
+              <div class="article-details">
+                <h3 class="article-title">Algorithmic Curation and Discovery</h3>
+                <p class="article-description">What recommendation engines do to both creators and consumers.</p>
+                <span class="article-date">February 14, 2026</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#" class="article-link">
+            <div class="article-card">
+              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
+              <div class="article-details">
+                <h3 class="article-title">Raw Milk and First Principles</h3>
+                <p class="article-description">Going to the source, questioning institutional consensus.</p>
+                <span class="article-date">January 5, 2026</span>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
 
-       <hr class="header-divider">
-
-       <div class="main-content-wrapper">
-         <aside class="sidebar">
-           <a href="/art-wall" class="sidebar-item">
-             <img src="/images/rune-1.png" alt="Art Wall" class="sidebar-image">
-             <span class="sidebar-title">art wall</span>
-           </a>
-           <a href="/construction" class="sidebar-item">
-             <img src="/images/rune-1.png" alt="Construction" class="sidebar-image">
-             <span class="sidebar-title">construction</span>
-           </a>
-         </aside>
-
-         <div class="catalog-container">
-           <h1 class="catalog-title">Featured Catalog</h1>
-           <div class="catalog-content">
-             <a href="/about-site" class="article-link">
-               <div class="article-card">
-                 <img src="/images/rune-1.png" alt="Article Thumbnail" class="article-thumbnail">
-                 <div class="article-details">
-                   <h3 class="article-title">About this site</h3>
-                   <p class="article-description">It's purpose, how it was made, and why it's on pause.</p>
-                   <span class="article-date">November 21st, 2025</span>
-                 </div>
-               </div>
-             </a>
-           </div>
-         </div>
-       </div>
-
-       <div class="catalog-link-container">
-         <a href="/article-catalog" class="full-catalog-link">
-           <span class="bracket-bold">≪</span> see full catalog <span class="bracket-bold">≫</span>
-         </a>
-       </div>
+      <div class="catalog-link-container">
+        <a href="/article-catalog" class="full-catalog-link">
+          <span class="bracket-bold">≪</span> see full catalog <span class="bracket-bold">≫</span>
+        </a>
+      </div>
+    </main>
   </body>
 </html>
+
+<style>
+  :global(html) {
+    font-size: clamp(14px, 1vw, 22px);
+  }
+
+  /* ---- HEADER NAV ICONS ---- */
+  :global(.lc-header-icons) {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    margin-left: auto;
+    margin-right: 5rem;
+  }
+  :global(.lc-header-btn) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  :global(.lc-header-btn:hover) {
+    opacity: 0.7;
+  }
+  :global(.lc-header-btn-img) {
+    width: 3.5rem;
+    height: 3.5rem;
+    image-rendering: pixelated;
+    margin-bottom: 0.2rem;
+  }
+  :global(.lc-header-btn-label) {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1C1D21;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.2;
+    background-color: #e8dfc6;
+    padding: 0.15rem 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ---- MAIN ---- */
+  .lc-main {
+    height: calc(100vh - 9rem);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ---- BIG FEATURED ARTICLE ---- */
+  .lc-big-thumb {
+    width: 12.5rem;
+    height: 8.125rem;
+  }
+  .lc-article-big {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #c8c0ab;
+  }
+</style>
