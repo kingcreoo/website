@@ -1,0 +1,65 @@
+---
+import "../styles/global.css";
+const { frontmatter } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{frontmatter.title} — Creoo Testing Lab</title>
+    {frontmatter.description && <meta name="description" content={frontmatter.description} />}
+  </head>
+  <body class="article-body">
+    <div class="header-container">
+      <img src="/images/rune-1.png" alt="Rune" class="header-image">
+      <div class="header-texts">
+        <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
+        <div class="header-2">
+          <span>Welcome to my laboratory, wanderer.</span>
+        </div>
+      </div>
+      <nav class="lc-header-icons">
+        <a href="#" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="About" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">about</span>
+        </a>
+        <a href="https://github.com/kingcreoo/website" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Open Source" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">open<br>source</span>
+        </a>
+      </nav>
+    </div>
+
+    <hr class="header-divider">
+
+    <main class="article-main">
+      <article class="article-content">
+        <header class="article-header">
+          <h1 class="article-h1">{frontmatter.title}</h1>
+          <div class="article-meta">
+            <span class="article-meta-date">{new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            {frontmatter.tags && frontmatter.tags.length > 0 && (
+              <div class="article-tags">
+                {frontmatter.tags.map((tag: string) => (
+                  <a href={`/tags/${tag}`} class="article-tag">{tag}</a>
+                ))}
+              </div>
+            )}
+          </div>
+          {frontmatter.description && (
+            <p class="article-description-lede">{frontmatter.description}</p>
+          )}
+        </header>
+
+        <hr class="article-divider" />
+
+        <div class="article-body-content">
+          <slot />
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
