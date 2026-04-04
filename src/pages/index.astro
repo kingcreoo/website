@@ -1,5 +1,37 @@
 ---
 import "../styles/global.css";
+
+const articleFiles = import.meta.glob('./articles/*.md', { eager: true });
+const allArticles = Object.values(articleFiles) as any[];
+const articles = allArticles
+  .filter(a => !a.frontmatter.hidden)
+  .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+
+const pinned = articles.filter(a => a.frontmatter.pinned).slice(0, 2);
+const unpinned = articles.filter(a => !a.frontmatter.pinned);
+
+const hasFeatured = pinned.length > 0;
+const page1Count = hasFeatured ? 4 : 8;
+const page1Standard = unpinned.slice(0, page1Count);
+const remaining = unpinned.slice(page1Count);
+
+// Split into pages of 8
+const laterPages: typeof articles[] = [];
+for (let i = 0; i < remaining.length; i += 8) {
+  laterPages.push(remaining.slice(i, i + 8));
+}
+
+const totalPages = 1 + laterPages.length;
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// Split array into two halves for the two-column grid
+function halves<T>(arr: T[]): [T[], T[]] {
+  const mid = Math.ceil(arr.length / 2);
+  return [arr.slice(0, mid), arr.slice(mid)];
+}
 ---
 
 <html lang="en">
@@ -33,121 +65,335 @@ import "../styles/global.css";
 
     <hr class="header-divider">
 
-    <main class="lc-main">
-      <div class="catalog-container">
-        <h1 class="catalog-title">Featured Catalog</h1>
-        <div class="catalog-content">
-          <a href="#" class="article-link">
-            <div class="article-card lc-article-big">
-              <img src="/images/rune-1.png" alt="Featured" class="article-thumbnail lc-big-thumb" />
-              <div class="article-details">
-                <h3 class="article-title">The Lowtech Loadout</h3>
-                <p class="article-description">Why a Librebooted ThinkPad and a beater Subaru constitute a deliberate philosophy.</p>
-                <span class="article-date">March 10, 2026</span>
-              </div>
-            </div>
-          </a>
+    <main class="hp-main">
+      <div class="hp-viewport">
+        <div class="hp-track" id="hp-track">
 
-          <a href="#" class="article-link">
-            <div class="article-card">
-              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
-              <div class="article-details">
-                <h3 class="article-title">About This Site</h3>
-                <p class="article-description">Its purpose, how it was made, and why it's on pause.</p>
-                <span class="article-date">November 21, 2025</span>
+          {/* Page 1 */}
+          {hasFeatured ? (
+            <div class="hp-page hp-page-featured">
+              <div class="hp-featured-col">
+                {pinned.map(article => (
+                  <a href={article.url} class="hp-card hp-card-featured">
+                    <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="hp-img-featured" />
+                    <div class="hp-featured-text">
+                      <h3 class="hp-title">{article.frontmatter.title}</h3>
+                      <p class="hp-preview">{article.frontmatter.description}</p>
+                      <span class="hp-date">{formatDate(article.frontmatter.date)}</span>
+                    </div>
+                  </a>
+                ))}
               </div>
+              {page1Standard.length > 0 && (
+                <div class="hp-grid-col">
+                  {page1Standard.map(article => (
+                    <a href={article.url} class="hp-card hp-card-standard">
+                      <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="hp-img-standard" />
+                      <h3 class="hp-title-sm">{article.frontmatter.title}</h3>
+                      <span class="hp-date">{formatDate(article.frontmatter.date)}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-          </a>
+          ) : (
+            <div class="hp-page hp-page-full">
+              {halves(page1Standard).map(half => (
+                half.length > 0 && (
+                  <div class="hp-grid-col">
+                    {half.map(article => (
+                      <a href={article.url} class="hp-card hp-card-standard">
+                        <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="hp-img-standard" />
+                        <h3 class="hp-title-sm">{article.frontmatter.title}</h3>
+                        <span class="hp-date">{formatDate(article.frontmatter.date)}</span>
+                      </a>
+                    ))}
+                  </div>
+                )
+              ))}
+            </div>
+          )}
 
-          <a href="#" class="article-link">
-            <div class="article-card">
-              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
-              <div class="article-details">
-                <h3 class="article-title">Algorithmic Curation and Discovery</h3>
-                <p class="article-description">What recommendation engines do to both creators and consumers.</p>
-                <span class="article-date">February 14, 2026</span>
-              </div>
+          {/* Pages 2+ */}
+          {laterPages.map(page => (
+            <div class="hp-page hp-page-full">
+              {halves(page).map(half => (
+                half.length > 0 && (
+                  <div class="hp-grid-col">
+                    {half.map(article => (
+                      <a href={article.url} class="hp-card hp-card-standard">
+                        <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="hp-img-standard" />
+                        <h3 class="hp-title-sm">{article.frontmatter.title}</h3>
+                        <span class="hp-date">{formatDate(article.frontmatter.date)}</span>
+                      </a>
+                    ))}
+                  </div>
+                )
+              ))}
             </div>
-          </a>
+          ))}
 
-          <a href="#" class="article-link">
-            <div class="article-card">
-              <img src="/images/rune-1.png" alt="Thumb" class="article-thumbnail" />
-              <div class="article-details">
-                <h3 class="article-title">Raw Milk and First Principles</h3>
-                <p class="article-description">Going to the source, questioning institutional consensus.</p>
-                <span class="article-date">January 5, 2026</span>
-              </div>
-            </div>
-          </a>
         </div>
       </div>
 
-      <div class="catalog-link-container">
-        <a href="/article-catalog" class="full-catalog-link">
-          <span class="bracket-bold">≪</span> see full catalog <span class="bracket-bold">≫</span>
-        </a>
-      </div>
+      {totalPages > 1 && (
+        <div class="hp-pagination">
+          <button class="hp-page-btn hp-prev" id="hp-prev" disabled>&larr; Back</button>
+          <button class="hp-page-btn hp-next" id="hp-next">Next &rarr;</button>
+        </div>
+      )}
     </main>
+
+    <script>
+      const track = document.getElementById('hp-track');
+      const prevBtn = document.getElementById('hp-prev');
+      const nextBtn = document.getElementById('hp-next');
+      if (track && prevBtn && nextBtn) {
+        const pages = track.querySelectorAll('.hp-page');
+        let current = 0;
+        const total = pages.length;
+
+        function updatePagination() {
+          prevBtn.disabled = current === 0;
+          nextBtn.disabled = current === total - 1;
+          track.style.transform = `translateX(-${current * 100}%)`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+          if (current > 0) { current--; updatePagination(); }
+        });
+
+        nextBtn.addEventListener('click', () => {
+          if (current < total - 1) { current++; updatePagination(); }
+        });
+      }
+    </script>
   </body>
 </html>
 
 <style>
-  :global(html) {
-    font-size: clamp(14px, 1vw, 22px);
-  }
-
-  /* ---- HEADER NAV ICONS ---- */
-  :global(.lc-header-icons) {
-    display: flex;
-    gap: 1.5rem;
-    align-items: flex-start;
-    margin-left: auto;
-    margin-right: 5rem;
-  }
-  :global(.lc-header-btn) {
+  /* ---- HOMEPAGE MAIN ---- */
+  .hp-main {
+    height: calc(100vh - 9rem);
+    overflow: hidden;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-  :global(.lc-header-btn:hover) {
-    opacity: 0.7;
-  }
-  :global(.lc-header-btn-img) {
-    width: 3.5rem;
-    height: 3.5rem;
-    image-rendering: pixelated;
-    margin-bottom: 0.2rem;
-  }
-  :global(.lc-header-btn-label) {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #1C1D21;
-    text-align: center;
-    text-transform: uppercase;
-    line-height: 1.2;
-    background-color: #e8dfc6;
-    padding: 0.15rem 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
   }
 
-  /* ---- MAIN ---- */
-  .lc-main {
-    height: calc(100vh - 9rem);
+  .hp-viewport {
+    flex: 1;
     overflow: hidden;
     position: relative;
   }
 
-  /* ---- BIG FEATURED ARTICLE ---- */
-  .lc-big-thumb {
-    width: 12.5rem;
-    height: 8.125rem;
+  .hp-track {
+    display: flex;
+    height: 100%;
+    transition: none;
+    will-change: transform;
   }
-  .lc-article-big {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #c8c0ab;
+
+  .hp-page {
+    min-width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1.5rem 2rem;
+  }
+
+  /* ---- PAGE 1: FEATURED LAYOUT ---- */
+  .hp-page-featured {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .hp-featured-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+
+  .hp-card {
+    text-decoration: none;
+    color: #1C1D21;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .hp-card:hover {
+    opacity: 0.8;
+  }
+
+  .hp-card-featured {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    min-height: 0;
+  }
+
+  .hp-img-featured {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    image-rendering: pixelated;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .hp-featured-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .hp-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1C1D21;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+  }
+
+  .hp-preview {
+    font-size: 1.15rem;
+    color: #1C1D21;
+    margin: 0;
+    line-height: 1.6;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ---- GRID COLUMN (page 1 right side) ---- */
+  .hp-grid-col {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .hp-card-standard {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .hp-img-standard {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    image-rendering: pixelated;
+    display: block;
+  }
+
+  .hp-title-sm {
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1C1D21;
+    margin: 0.5rem 0 0 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hp-date {
+    font-size: 0.85rem;
+    color: #75798a;
+    font-family: monospace;
+    margin-top: 0.15rem;
+  }
+
+  .hp-featured-text .hp-date {
+    margin-top: auto;
+    padding-top: 0.4rem;
+  }
+
+  /* ---- PAGE 2+: FULL GRID ---- */
+  .hp-page-full {
+    display: flex;
+    gap: 2rem;
+  }
+
+  /* ---- PAGINATION ---- */
+  .hp-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0.8rem 0;
+    flex-shrink: 0;
+  }
+
+  .hp-page-btn {
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1C1D21;
+    cursor: pointer;
+    padding: 0.3rem 0.8rem;
+    transition: color 0.2s ease;
+    font-family: inherit;
+  }
+
+  .hp-page-btn:hover:not(:disabled) {
+    color: #474747;
+  }
+
+  .hp-page-btn:disabled {
+    color: #c8c0ab;
+    cursor: default;
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 768px) {
+    .hp-page-featured {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .hp-card-featured {
+      flex: none;
+      height: auto;
+    }
+
+    .hp-img-featured {
+      height: 8rem;
+      width: 8rem;
+    }
+
+    .hp-preview {
+      -webkit-line-clamp: 3;
+    }
+
+    .hp-grid-col {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+
+    .hp-page-full {
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .lc-header-icons {
+      margin-right: 1rem;
+      gap: 0.8rem;
+    }
+
+    .lc-header-btn-img {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
   }
 </style>
