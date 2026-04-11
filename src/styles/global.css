@@ -13,6 +13,7 @@
   align-items: center;
   text-decoration: none;
   transition: opacity 0.2s ease;
+  width: 4.5rem;
 }
 
 .lc-header-btn:hover {
@@ -20,8 +21,8 @@
 }
 
 .lc-header-btn-img {
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   image-rendering: pixelated;
   margin-bottom: 0.2rem;
 }
