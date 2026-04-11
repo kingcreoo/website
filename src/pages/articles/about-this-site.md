@@ -1,10 +1,11 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
-title: About This Site
+title: About This Site and Its Design
 date: 2025-11-21
-description: Its purpose, how it was made, and why it exists.
+description: A personal site hosted on a Raspberry Pi Zero 2W, built with Astro, and served as static HTML through nginx. There is no database, no client-side framework, and no JavaScript required to read anything published here. Every page is a flat file generated at build time.
 tags: [meta]
 image: /images/rune-1.png
+pinned: true
 ---
 
 This is a personal site hosted on a Raspberry Pi Zero 2W, built with Astro, and served as static HTML through nginx. There is no database, no client-side framework, and no JavaScript required to read anything published here.
