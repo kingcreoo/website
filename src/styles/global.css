@@ -37,6 +37,8 @@
   padding: 0.15rem 0.5rem;
   width: 100%;
   box-sizing: border-box;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .header {

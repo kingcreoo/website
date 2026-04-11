@@ -1,0 +1,141 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import "../../styles/global.css";
+
+interface Gallery {
+  slug: string;
+  title: string;
+  date: string;
+  cover: string;
+}
+
+function loadGalleries(): Gallery[] {
+  const artDir = path.resolve('./public/images/art');
+  if (!fs.existsSync(artDir)) return [];
+
+  return fs.readdirSync(artDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => {
+      const metaPath = path.join(artDir, entry.name, '_meta.json');
+      if (!fs.existsSync(metaPath)) return null;
+      const meta = JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+      return {
+        slug: entry.name,
+        title: meta.title,
+        date: meta.date,
+        cover: meta.cover,
+      };
+    })
+    .filter((x): x is Gallery => x !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+const galleries = loadGalleries();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Art Wall — Creoo Testing Lab</title>
+  </head>
+  <body>
+    <div class="header-container">
+      <img src="/images/rune-1.png" alt="Rune" class="header-image">
+      <div class="header-texts">
+        <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
+        <div class="header-2">
+          <span>Welcome to my laboratory, wanderer.</span>
+        </div>
+      </div>
+      <nav class="lc-header-icons">
+        <a href="#" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="About" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">about</span>
+        </a>
+        <a href="https://github.com/kingcreoo/website" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Open Source" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">open<br>source</span>
+        </a>
+        <a href="/art/" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Art Wall" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">art<br>wall</span>
+        </a>
+      </nav>
+    </div>
+
+    <hr class="header-divider">
+
+    <main class="aw-main">
+      <div class="aw-grid">
+        {galleries.map(gallery => (
+          <a href={`/art/${gallery.slug}/`} class="aw-folder">
+            <img
+              src={`/images/art/${gallery.slug}/${gallery.cover}`}
+              alt={gallery.title}
+              class="aw-folder-img"
+            />
+            <span class="aw-folder-label">{gallery.title}</span>
+          </a>
+        ))}
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .aw-main {
+    height: calc(100vh - 9rem);
+    overflow: hidden;
+    display: flex;
+    padding: 2rem 3rem 2.5rem;
+    box-sizing: border-box;
+  }
+
+  .aw-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 3rem;
+    width: 100%;
+  }
+
+  .aw-folder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .aw-folder:hover {
+    opacity: 0.7;
+  }
+
+  .aw-folder-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .aw-folder-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1C1D21;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.2;
+    background-color: #e8dfc6;
+    padding: 0.15rem 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+</style>

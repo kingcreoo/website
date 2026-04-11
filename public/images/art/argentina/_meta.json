@@ -1,0 +1,10 @@
+{
+  "title": "Argentina",
+  "date": "2025-09-16",
+  "cover": "photo_2025-09-30_17-10-19.jpg",
+  "images": [
+    { "file": "photo_2025-09-16_18-39-07.jpg", "width": 960, "height": 1280 },
+    { "file": "photo_2025-09-30_17-10-19.jpg", "width": 1280, "height": 960 },
+    { "file": "photo_2025-11-26_23-09-03.jpg", "width": 960, "height": 1280 }
+  ]
+}

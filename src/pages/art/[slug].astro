@@ -1,0 +1,278 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const artDir = path.resolve('./public/images/art');
+  if (!fs.existsSync(artDir)) return [];
+
+  const entries = fs.readdirSync(artDir, { withFileTypes: true })
+    .filter(entry => entry.isDirectory());
+
+  return entries
+    .map(entry => {
+      const metaPath = path.join(artDir, entry.name, '_meta.json');
+      if (!fs.existsSync(metaPath)) return null;
+      const meta = JSON.parse(fs.readFileSync(metaPath, 'utf-8'));
+      return {
+        params: { slug: entry.name },
+        props: { meta, slug: entry.name }
+      };
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null);
+}
+
+interface ImageEntry {
+  file: string;
+  width: number;
+  height: number;
+}
+
+interface Meta {
+  title: string;
+  date: string;
+  cover: string;
+  images: ImageEntry[];
+}
+
+const { meta, slug } = Astro.props as { meta: Meta; slug: string };
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{meta.title} — Creoo Testing Lab</title>
+  </head>
+  <body class="gallery-body">
+    <div class="header-container">
+      <img src="/images/rune-1.png" alt="Rune" class="header-image">
+      <div class="header-texts">
+        <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
+        <div class="header-2">
+          <span>Welcome to my laboratory, wanderer.</span>
+        </div>
+      </div>
+      <nav class="lc-header-icons">
+        <a href="#" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="About" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">about</span>
+        </a>
+        <a href="https://github.com/kingcreoo/website" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Open Source" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">open<br>source</span>
+        </a>
+        <a href="/art/" class="lc-header-btn">
+          <img src="/images/rune-1.png" alt="Art Wall" class="lc-header-btn-img" />
+          <span class="lc-header-btn-label">art<br>wall</span>
+        </a>
+      </nav>
+    </div>
+
+    <hr class="header-divider">
+
+    <main class="gal-main">
+      <div class="gal-header">
+        <a href="/art/" class="gal-back">&larr; art wall</a>
+        <h2 class="gal-title">{meta.title}</h2>
+        <span class="gal-date">last addition: {formatDate(meta.date)}</span>
+      </div>
+
+      <div class="gal-grid">
+        {meta.images.map(img => (
+          <a
+            href={`/images/art/${slug}/${img.file}`}
+            class="gal-item"
+            style={`flex-basis: calc(390px * ${(img.width / img.height).toFixed(4)});`}
+            data-full={`/images/art/${slug}/${img.file}`}
+          >
+            <img
+              src={`/images/art/${slug}/${img.file}`}
+              alt={img.file}
+              width={img.width}
+              height={img.height}
+              loading="lazy"
+            />
+          </a>
+        ))}
+        <span class="gal-spacer"></span>
+      </div>
+    </main>
+
+    <div id="gal-lightbox" class="gal-lightbox" hidden>
+      <img id="gal-lightbox-img" src="" alt="" />
+    </div>
+
+    <script>
+      (() => {
+        const lightbox = document.getElementById('gal-lightbox');
+        const lightboxImg = document.getElementById('gal-lightbox-img') as HTMLImageElement | null;
+        if (!lightbox || !lightboxImg) return;
+
+        const items = Array.from(document.querySelectorAll<HTMLAnchorElement>('.gal-item'));
+        const urls = items.map(item => item.dataset.full || '');
+        let currentIndex = -1;
+
+        function show(index: number) {
+          if (index < 0 || index >= urls.length) return;
+          currentIndex = index;
+          lightboxImg!.src = urls[index];
+          lightbox!.hidden = false;
+          document.body.style.overflow = 'hidden';
+        }
+
+        function close() {
+          lightbox!.hidden = true;
+          lightboxImg!.src = '';
+          document.body.style.overflow = '';
+          currentIndex = -1;
+        }
+
+        function next() {
+          if (currentIndex === -1) return;
+          show((currentIndex + 1) % urls.length);
+        }
+
+        function prev() {
+          if (currentIndex === -1) return;
+          show((currentIndex - 1 + urls.length) % urls.length);
+        }
+
+        items.forEach((item, idx) => {
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+            show(idx);
+          });
+        });
+
+        lightbox.addEventListener('click', close);
+        document.addEventListener('keydown', (e) => {
+          if (lightbox.hidden) return;
+          if (e.key === 'Escape') close();
+          else if (e.key === 'ArrowRight') next();
+          else if (e.key === 'ArrowLeft') prev();
+        });
+      })();
+    </script>
+  </body>
+</html>
+
+<style>
+  .gallery-body {
+    overflow: auto;
+    height: auto;
+  }
+
+  .gal-main {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .gal-header {
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .gal-back {
+    font-family: monospace;
+    font-size: 1rem;
+    color: #75798a;
+    text-decoration: none;
+  }
+
+  .gal-back:hover {
+    color: #1C1D21;
+  }
+
+  .gal-title {
+    font-size: 2.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #1C1D21;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .gal-date {
+    font-family: monospace;
+    font-size: 1rem;
+    color: #75798a;
+  }
+
+  .gal-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .gal-item {
+    flex-grow: 1;
+    height: 390px;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    cursor: zoom-in;
+    transition: opacity 0.2s ease;
+  }
+
+  .gal-item:hover {
+    opacity: 0.9;
+  }
+
+  .gal-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gal-spacer {
+    flex-grow: 100;
+  }
+
+  .gal-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(28, 29, 33, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+
+  .gal-lightbox[hidden] {
+    display: none;
+  }
+
+  .gal-lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .gal-main {
+      padding: 0.5rem 0.75rem 3rem;
+    }
+
+    .gal-title {
+      font-size: 1.8rem;
+    }
+
+    .gal-item {
+      height: 200px;
+    }
+  }
+</style>
