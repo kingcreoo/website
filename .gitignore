@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# claude code local config
+.claude/
+
+# raw photo staging area (processed copies live in public/images/art/)
+Images to upload/
