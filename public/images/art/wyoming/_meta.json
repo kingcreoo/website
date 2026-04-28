@@ -1,0 +1,32 @@
+{
+  "title": "Wyoming Photos",
+  "date": "2026-04-11",
+  "cover": "IMG_0014.jpg",
+  "images": [
+    {
+      "file": "IMG_0014.jpg",
+      "width": 1536,
+      "height": 2048
+    },
+    {
+      "file": "IMG_0023.jpg",
+      "width": 1536,
+      "height": 2048
+    },
+    {
+      "file": "IMG_0038.jpg",
+      "width": 1536,
+      "height": 2048
+    },
+    {
+      "file": "IMG_0139.jpg",
+      "width": 1536,
+      "height": 2048
+    },
+    {
+      "file": "IMG_0320.jpg",
+      "width": 1536,
+      "height": 2048
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "title": "Motorcycle Photos",
+  "date": "2026-04-11",
+  "cover": "IMG_0220.jpg",
+  "images": [
+    {
+      "file": "IMG_0201.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0219.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0220.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0289.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0291.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0300.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0493.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_0503.jpg",
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "file": "IMG_8489.jpg",
+      "width": 1600,
+      "height": 1200
+    }
+  ]
+}
