@@ -388,7 +388,7 @@ body.article-body {
 /* ---- ARTICLE BODY TYPOGRAPHY ---- */
 
 .article-body-content p {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   line-height: 1.7;
   color: #1C1D21;
   margin: 0 0 1.2rem 0;
@@ -450,7 +450,7 @@ body.article-body {
 }
 
 .article-body-content li {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   line-height: 1.7;
   color: #1C1D21;
   margin-bottom: 0.2rem;
