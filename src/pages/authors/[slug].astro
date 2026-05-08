@@ -1,0 +1,39 @@
+---
+import ArticleGrid from "../../components/ArticleGrid.astro";
+
+const slugify = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+export async function getStaticPaths() {
+  const articleFiles = import.meta.glob('../articles/*.md', { eager: true });
+  const allArticles = Object.values(articleFiles) as any[];
+
+  const slugifyFn = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+
+  const visible = allArticles
+    .filter(a => !a.frontmatter.hidden)
+    .filter(a => import.meta.env.DEV || !a.frontmatter.draft);
+
+  const authorMap = new Map<string, { name: string; articles: any[] }>();
+  for (const article of visible) {
+    const author = article.frontmatter.author;
+    if (!author) continue;
+    const slug = slugifyFn(author);
+    if (!authorMap.has(slug)) {
+      authorMap.set(slug, { name: author, articles: [] });
+    }
+    authorMap.get(slug)!.articles.push(article);
+  }
+
+  return Array.from(authorMap.entries()).map(([slug, { name, articles }]) => ({
+    params: { slug },
+    props: {
+      authorName: name,
+      articles: articles.sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()),
+    },
+  }));
+}
+
+const { authorName, articles } = Astro.props;
+---
+
+<ArticleGrid pageTitle={`Written by ${authorName}`} articles={articles} />

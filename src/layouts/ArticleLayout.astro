@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 const { frontmatter } = Astro.props;
+
+const slugify = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 ---
 
 <html lang="en">
@@ -22,6 +24,9 @@ const { frontmatter } = Astro.props;
           <h1 class="article-h1">{frontmatter.title}</h1>
           <div class="article-meta">
             <span class="article-meta-date">{new Date(frontmatter.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            {frontmatter.author && (
+              <span class="article-meta-author">Written by <a href={`/authors/${slugify(frontmatter.author)}`}>{frontmatter.author}</a></span>
+            )}
             {frontmatter.tags && frontmatter.tags.length > 0 && (
               <div class="article-tags">
                 {frontmatter.tags.map((tag: string) => (
@@ -30,8 +35,8 @@ const { frontmatter } = Astro.props;
               </div>
             )}
           </div>
-          {frontmatter.description && (
-            <p class="article-description-lede">{frontmatter.description}</p>
+          {frontmatter.lede && (
+            <p class="article-description-lede">{frontmatter.lede}</p>
           )}
         </header>
 

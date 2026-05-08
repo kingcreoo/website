@@ -1,32 +1,20 @@
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: About This Site and Its Design
-date: 2025-11-21
-description: A personal site hosted on a Raspberry Pi Zero 2W, built with Astro, and served as static HTML through nginx. There is no database, no client-side framework, and no JavaScript required to read anything published here. Every page is a flat file generated at build time.
+date: 2026-04-28
+author: Collin DeSantis
 tags: [meta]
 image: /images/rune-1.png
-pinned: true
+pinned: false
+hidden: true
 ---
 
-This is a personal site hosted on a Raspberry Pi Zero 2W, built with Astro, and served as static HTML through nginx. There is no database, no client-side framework, and no JavaScript required to read anything published here.
+This is a website created by Collin DeSantis.
 
-## Why It Exists
+The site is designed in contradiction to the modern web. I have architected this site specifically to harbor no load times. Each page is static and the contained content is woven with a defiantly anti-slop mantra.
 
-Most of the internet is built to extract attention. This site is built to hold thoughts. Logs record what happened. Articles work through what it means. The two reference each other over time.
+The site is running in my garage on a raspberry pi. I use no external services or pay for any subscriptions to run this site. It is entirely self hosted.
 
-## How It Works
+This site is a place to properly present & log my various projects and ideas. You could call it a portfolio or a public journal.
 
-Every page is a flat HTML file generated at build time. The source lives in a git repository. When something is ready to publish, the site rebuilds and rsyncs the output to the Pi. The whole process takes a few seconds.
-
-## What It Runs On
-
-A Raspberry Pi Zero 2W drawing about 0.4 watts at idle. The machine sits on a shelf next to the router. It serves static files and nothing else. If the power goes out or the SD card dies, the site rebuilds from the repo in minutes.
-
-## The Stack
-
-- **Astro** for static site generation
-- **nginx** for serving files
-- **System fonts** only — no external requests
-- **No analytics, no cookies, no tracking**
-
-The goal is a site that loads instantly, costs nothing to run, and survives without maintenance.
+In the future I plan to upgrade this site to solar powered as a small science project. As the site grows I will include an archive page or any other necessary amenities. An art page for your viewing pleasure is already affixed.

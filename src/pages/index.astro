@@ -6,6 +6,7 @@ const articleFiles = import.meta.glob('./articles/*.md', { eager: true });
 const allArticles = Object.values(articleFiles) as any[];
 const articles = allArticles
   .filter(a => !a.frontmatter.hidden)
+  .filter(a => import.meta.env.DEV || !a.frontmatter.draft)
   .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
 
 const pinned = articles.filter(a => a.frontmatter.pinned).slice(0, 2);

@@ -335,6 +335,23 @@ body.article-body {
   color: #75798a;
 }
 
+.article-meta-author {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #75798a;
+}
+
+.article-meta-author a {
+  color: #75798a;
+  text-decoration: none;
+  border-bottom: 1px solid #c8c0ab;
+}
+
+.article-meta-author a:hover {
+  color: #1C1D21;
+  border-bottom-color: #1C1D21;
+}
+
 .article-tags {
   display: flex;
   gap: 0.5rem;

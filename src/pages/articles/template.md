@@ -2,7 +2,9 @@
 layout: ../../layouts/ArticleLayout.astro
 title: Article Template & Feature Reference
 date: 2026-04-03
+author: Collin DeSantis
 description: A living reference for every feature available in an article. Each element is demonstrated and explained in place.
+lede: This template demonstrates every frontmatter field and content element supported by the site.
 tags: [meta, reference]
 image: /images/rune-1.png
 hidden: true
@@ -12,19 +14,35 @@ This document is both a showcase and a manual. Every element below is an example
 
 ## Frontmatter
 
-Every article starts with a frontmatter block between the `---` fences. It is not visible on the page, but it drives the title, date, description, and tags. The full set of fields:
+Every article starts with a frontmatter block between the `---` fences. It is not visible on the page, but it drives the title, byline, opener, tags, and image. The full set of fields:
 
 ```markdown
 ---
 layout: ../../layouts/ArticleLayout.astro
 title: Your Article Title
 date: 2026-04-03
-description: One sentence. Shows up under the title and in search engines.
+author: Collin DeSantis
+description: One sentence. Used for SEO and as the homepage preview on pinned articles.
+lede: One sentence. Appears as the opener under the title on the article page itself.
 tags: [tag-one, tag-two]
+image: /images/something.jpg
+pinned: false
+draft: false
+hidden: false
 ---
 ```
 
-`layout` is required — it points to the shared article shell. `description` appears as the lede beneath the title. `tags` are optional but recommended; they will link out to tag index pages once those are built.
+- `layout` — required. Points to the shared article shell.
+- `title` — required. Renders as the H1 and in the browser tab.
+- `date` — required. ISO format (`YYYY-MM-DD`).
+- `author` — optional. Renders as "Written by [name]" with a link to `/authors/<slug>` (slug auto-derived from name).
+- `description` — optional. Used as `<meta name="description">` for search engines, and as the preview text on the homepage for pinned articles. Not shown on the article page.
+- `lede` — optional. The opening sentence shown beneath the title on the article page. Different from `description` because the audiences are different — `description` is for someone deciding whether to click; `lede` is for someone who already clicked.
+- `tags` — optional. Each tag links to `/tags/<tag>`, a grid of all articles with that tag.
+- `image` — optional. Used as the thumbnail on homepage cards, tag pages, and author pages. Falls back to `/images/rune-1.png`.
+- `pinned: true` — optional. Pins the article to the featured slot on the homepage page 1 (max two pinned at a time).
+- `draft: true` — optional. Hides the article from listings in production builds, but it still shows in `npm run dev`. The page itself still builds at its URL — drafts are list-hidden, not entirely absent.
+- `hidden: true` — optional. Permanently excluded from all listings (homepage, tags, authors). The page still builds at its URL. Used for things like the about page, which has a dedicated entry point in the header.
 
 ---
 
