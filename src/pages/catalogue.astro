@@ -42,10 +42,10 @@ function formatDate(date: string) {
                   alt={article.frontmatter.title}
                   class="cat-img"
                 />
+                <h3 class="cat-title">{article.frontmatter.title}</h3>
                 {(article.frontmatter.lede || article.frontmatter.description) && (
                   <p class="cat-lede">{article.frontmatter.lede || article.frontmatter.description}</p>
                 )}
-                <h3 class="cat-title">{article.frontmatter.title}</h3>
                 <span class="cat-date">{formatDate(article.frontmatter.date)}</span>
               </a>
             ))}
@@ -92,7 +92,7 @@ function formatDate(date: string) {
 
   .cat-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 2rem 1.5rem;
   }
 
