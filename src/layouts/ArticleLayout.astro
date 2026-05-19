@@ -4,6 +4,13 @@ import Header from "../components/Header.astro";
 const { frontmatter } = Astro.props;
 
 const slugify = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+const renderCaption = (caption: string) => {
+  const escaped = caption
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  return escaped.replace(/`([^`]+)`/g, "<code>$1</code>");
+};
 ---
 
 <html lang="en">
@@ -37,6 +44,18 @@ const slugify = (s: string) => s.toLowerCase().trim().replace(/\s+/g, '-').repla
           </div>
           {frontmatter.lede && (
             <p class="article-description-lede">{frontmatter.lede}</p>
+          )}
+          {frontmatter.image && (
+            <figure class="article-hero">
+              <img
+                src={frontmatter.image}
+                alt={frontmatter.imageAlt ?? frontmatter.title}
+                loading="eager"
+              />
+              {frontmatter.imageCaption && (
+                <figcaption set:html={renderCaption(frontmatter.imageCaption)} />
+              )}
+            </figure>
           )}
         </header>
 

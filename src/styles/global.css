@@ -495,6 +495,35 @@ body.article-body {
   margin-top: 0.4rem;
 }
 
+.article-hero {
+  margin: 1.6rem 0 0.8rem;
+  max-width: 560px;
+}
+
+.article-hero img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.article-hero figcaption {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #75798a;
+  margin-top: 0.4rem;
+}
+
+.article-hero figcaption code {
+  font-family: monospace;
+  font-size: 1em;
+  background-color: #e8dfc6;
+  padding: 0.1em 0.35em;
+  border-radius: 0;
+  color: #1C1D21;
+}
+
 .article-body-content table {
   width: 100%;
   border-collapse: collapse;
@@ -555,6 +584,10 @@ body.article-body {
   .article-meta {
     flex-direction: column;
     gap: 0.4rem;
+  }
+
+  .article-hero {
+    max-width: 100%;
   }
 }
 

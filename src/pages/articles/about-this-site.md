@@ -8,7 +8,7 @@ hidden: true
 
 This is a website created by Collin DeSantis.
 
-It is designed in contradiction to the modern web. I have architected it specifically to harbor no load times. Each page is static and the contained content is woven with a defiantly anti-slop ethos.
+It is designed in contradiction to the modern web. I have architected it specifically to harbor no load times. Each page is static and the contained content is woven with a defiantly anti-slop ethos. I write each article with my own hands. No AI is used for writing purposes.
 
 It is running in my garage on a raspberry pi. I use no external services or pay for any subscriptions. It is entirely self hosted.
 
