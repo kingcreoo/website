@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Header from "../components/Header.astro";
 ---
 
 <html lang="en">
@@ -11,20 +12,6 @@ import "../styles/global.css";
 		<title>About This Site - Creoo Testing Lab</title>
 	</head>
   <body>
-      <div class="header-container">
-        <img src="/images/rune-1.png" alt="Rune" class="header-image">
-         <div class="header-texts">
-            <a href="/" class="plain-link"><h1 class="header">Creoo Testing Lab</h1></a>
-            <div class="header-2">
-              <span>Welcome to my laboratory, wanderer.</span>
-              <span class="right-text">
-                <a href="/open-source" class="open-source-link"><span class="bracket-bold">&lt;</span>open-source<span class="bracket-bold">&gt;</span></a>
-                <span class="version-text">v 0.0.1</span>
-              </span>
-            </div>
-          </div>
-      </div>
-
-       <hr class="header-divider">
+    <Header />
   </body>
 </html>
