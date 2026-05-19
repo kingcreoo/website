@@ -161,7 +161,6 @@ a.plain-link:hover {
 .catalog-title {
   font-size: 2.5rem;
   font-weight: 500;
-  text-transform: uppercase;
   #letter-spacing: 0.1em;
   text-align: center;
   color: #1C1D21;
@@ -194,7 +193,6 @@ a.plain-link:hover {
 .article-title {
   font-size: 1.2rem;
   font-weight: 500;
-  text-transform: uppercase;
   color: #1C1D21;
   margin: 0 0 0.5rem 0;
 }
@@ -306,7 +304,6 @@ body.article-body {
 .article-h1 {
   font-size: 2rem;
   font-weight: 500;
-  text-transform: uppercase;
   color: #1C1D21;
   margin: 0 0 0.6rem 0;
   line-height: 1.2;
