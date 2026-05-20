@@ -26,6 +26,21 @@
 .lc-btn-about     { color: #1d4ed8; }
 .lc-btn-source    { color: #7c3aed; }
 
+@media (max-width: 1100px) {
+  .header-container { flex-wrap: wrap; row-gap: 0; }
+  .lc-header-icons {
+    width: 100%;
+    padding-left: calc(100px + 1rem);
+    box-sizing: border-box;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0.15rem;
+    margin-bottom: 0;
+    justify-content: flex-start;
+    align-self: flex-start;
+  }
+}
+
 @media (max-width: 768px) {
   .lc-header-icons {
     margin-right: 1rem;
