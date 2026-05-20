@@ -28,3 +28,4 @@ pnpm-debug.log*
 
 # raw photo staging area (processed copies live in public/images/art/)
 Images to upload/
+.aider*

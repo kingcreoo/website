@@ -100,6 +100,23 @@
   image-rendering: pixelated;
 }
 
+.header-image-link {
+  display: inline-block;
+  transition: opacity 0.2s ease;
+}
+
+.header-image-link:hover {
+  opacity: 0.8;
+}
+
+.header-title-link {
+  transition: opacity 0.2s ease;
+}
+
+.header-title-link:hover {
+  opacity: 0.8;
+}
+
 
 
 a.plain-link {
