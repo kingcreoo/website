@@ -167,5 +167,15 @@ function formatDate(date: string) {
     cursor: default;
   }
 
+  /* ── Mobile: single column, big image-led cards ─────────── */
+
+  @media (max-width: 768px) {
+    .cat-main { padding: 1rem 1rem 1.5rem; }
+    .cat-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .cat-lede { -webkit-line-clamp: 3; }
+  }
 
 </style>
