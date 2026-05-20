@@ -3,7 +3,7 @@ layout: ../../layouts/ArticleLayout.astro
 title: "Stalwart: Four Machines One Network"
 date: 2026-05-16
 pinned: false
-hidden: true
+hidden: false
 author: Collin DeSantis
 tags: ["home server"]
 description: "on homepage"
