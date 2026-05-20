@@ -1,0 +1,48 @@
+== 2D ORBIT STASH ==
+
+-- HTML (goes inside .left-lower, replaces .solar-system) --
+
+<div class="sitemap-orbit">
+  <div class="orbit-ring"></div>
+  <a href="/" class="orbit-center">[home]</a>
+  <div class="orbit-wrapper orbit-wrapper-cat">
+    <div class="orbit-body">
+      <span class="planet-dot"></span>
+      <a href="/catalogue/" class="planet-label planet-label-cat">[catalogue]</a>
+    </div>
+  </div>
+  <div class="orbit-wrapper orbit-wrapper-about">
+    <div class="orbit-body">
+      <span class="planet-dot"></span>
+      <a href="/articles/about-this-site/" class="planet-label planet-label-about">[about site]</a>
+    </div>
+  </div>
+  <div class="orbit-wrapper orbit-wrapper-author">
+    <div class="orbit-body">
+      <span class="planet-dot"></span>
+      <a href="/authors/collin-desantis/" class="planet-label planet-label-author">[author profile]</a>
+    </div>
+  </div>
+</div>
+
+-- CSS --
+
+.sitemap-orbit { flex: 1; position: relative; }
+.orbit-ring { position: absolute; width: 200px; height: 200px; border: 1px dashed #c8c0ab; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: monospace; font-weight: 600; font-size: 1rem; color: #b91c1c; text-decoration: none; z-index: 2; }
+.orbit-center:hover { opacity: 0.65; }
+.orbit-wrapper { position: absolute; top: 50%; left: 50%; width: 0; height: 0; animation: orbit-spin 12s linear infinite; }
+.orbit-wrapper-cat   { animation-delay: -9s; }
+.orbit-wrapper-about { animation-delay: -1s; }
+.orbit-wrapper-author{ animation-delay: -5s; }
+@keyframes orbit-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.orbit-body { position: absolute; left: 100px; top: 0; width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; animation: counter-spin 12s linear infinite; }
+.orbit-wrapper-cat   .orbit-body { animation-delay: -9s; }
+.orbit-wrapper-about .orbit-body { animation-delay: -1s; }
+.orbit-wrapper-author .orbit-body { animation-delay: -5s; }
+@keyframes counter-spin { from { transform: translate(0,-7px) rotate(0deg); } to { transform: translate(0,-7px) rotate(-360deg); } }
+.planet-dot { width: 14px; height: 14px; border-radius: 50%; background-color: #c8c0ab; flex-shrink: 0; display: block; }
+.planet-label { font-family: monospace; font-weight: 600; font-size: 0.9rem; text-decoration: none; white-space: nowrap; }
+.planet-label-cat   { color: #15803d; }
+.planet-label-about { color: #1d4ed8; }
+.planet-label-author{ color: #7c3aed; }

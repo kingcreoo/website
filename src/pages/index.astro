@@ -28,9 +28,42 @@ function formatDate(date: string) {
     <Header />
     <main class="home-main">
       <div class="home-container">
+
         <div class="home-left">
-          <!-- Left side placeholder -->
+
+          <!-- UPPER: Site News -->
+          <div class="left-upper">
+            <h2 class="left-section-title">Site News</h2>
+            <div class="news-card">
+              <img src="/images/rune-1.png" alt="Site launch" class="news-card-img" />
+              <div class="news-card-body">
+                <span class="news-card-date-title">May 20, 2026</span>
+                <p class="news-card-text">The site is now launched! Read more at the <a href="/articles/about-this-site/" class="news-link">[about page]</a></p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="left-divider" />
+
+          <!-- LOWER: Site Map — canvas 3D solar system -->
+          <div class="left-lower">
+            <h2 class="left-section-title left-section-title--lower">Site Map</h2>
+            <div class="solar-system">
+              <canvas id="solar-canvas" class="solar-canvas"></canvas>
+              <noscript>
+                <nav class="solar-noscript">
+                  <a href="/" class="lc-header-btn lc-btn-home">[home]</a>
+                  <a href="/catalogue/" class="lc-header-btn lc-btn-catalogue">[catalogue]</a>
+                  <a href="/articles/about-this-site/" class="lc-header-btn lc-btn-about">[about site]</a>
+                  <a href="/authors/collin-desantis/" class="lc-header-btn lc-btn-source">[author profile]</a>
+                </nav>
+              </noscript>
+            </div>
+          </div>
+
         </div>
+
+        <!-- RIGHT: Featured Catalogue -->
         <div class="home-right">
           <h2 class="featured-title">Featured Catalogue</h2>
           <div class="featured-grid">
@@ -53,12 +86,209 @@ function formatDate(date: string) {
           </div>
           <a href="/catalogue" class="featured-view-all">[view full catalogue]</a>
         </div>
+
       </div>
     </main>
   </body>
 </html>
 
+<script>
+(() => {
+  const canvas = document.getElementById('solar-canvas') as HTMLCanvasElement | null;
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d')!;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  let W = 0, H = 0, cx = 0, cy = 0;
+
+  // Padding added around the canvas so labels never clip at edges.
+  // Must match the CSS offsets on .solar-canvas exactly.
+  const PAD_X = 60, PAD_T = 20, PAD_B = 80;
+
+  function resize() {
+    const rect = canvas!.parentElement!.getBoundingClientRect();
+    W = rect.width  + PAD_X * 2;
+    H = Math.max(rect.height, 80) + PAD_T + PAD_B;
+    canvas!.width  = Math.round(W * dpr);
+    canvas!.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Centre is the middle of the *original* container area, offset by padding
+    cx = PAD_X + rect.width  / 2;
+    cy = PAD_T + Math.max(rect.height, 80) / 2;
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── Scene params ──────────────────────────────────────────
+  let rotX = 65 * Math.PI / 180;   // tilt (drag up/down)
+  let rotY = -20 * Math.PI / 180;  // spin  (drag left/right)
+  const FOCAL = 440;
+  const R     = 95;                 // orbit radius (px)
+  const SPEED = 0.007;              // radians per frame
+
+  // ── Bodies ────────────────────────────────────────────────
+  const SUN = {
+    label: '[home]', href: '/',
+    color: '#b91c1c', hi: '#fca5a5', r: 11
+  };
+
+  const planets = [
+    { angle: Math.PI * 1.5, color: '#15803d', hi: '#86efac', label: '[catalogue]',      href: '/catalogue/' },
+    { angle: Math.PI / 6,   color: '#1d4ed8', hi: '#93c5fd', label: '[about site]',     href: '/articles/about-this-site/' },
+    { angle: Math.PI * 5/6, color: '#7c3aed', hi: '#c4b5fd', label: '[author profile]', href: '/authors/collin-desantis/' },
+  ];
+
+  // ── 3-D math ──────────────────────────────────────────────
+  function rotate(x: number, y: number, z: number): [number, number, number] {
+    const y1 =  y * Math.cos(rotX) - z * Math.sin(rotX);
+    const z1 =  y * Math.sin(rotX) + z * Math.cos(rotX);
+    const x2 =  x * Math.cos(rotY) + z1 * Math.sin(rotY);
+    const z2 = -x * Math.sin(rotY) + z1 * Math.cos(rotY);
+    return [x2, y1, z2];
+  }
+
+  function project(x: number, y: number, z: number): [number, number, number] {
+    const s = FOCAL / (FOCAL + z);
+    return [cx + x * s, cy + y * s, s];
+  }
+
+  // ── Draw helpers ──────────────────────────────────────────
+  function drawSphere(sx: number, sy: number, r: number, dark: string, light: string) {
+    const g = ctx.createRadialGradient(sx - r * 0.3, sy - r * 0.35, r * 0.05, sx, sy, r);
+    g.addColorStop(0, light);
+    g.addColorStop(1, dark);
+    ctx.beginPath();
+    ctx.arc(sx, sy, r, 0, Math.PI * 2);
+    ctx.fillStyle = g;
+    ctx.fill();
+  }
+
+  function drawLabel(text: string, sx: number, sy: number, fs: number, color: string) {
+    ctx.font = `600 ${fs}px monospace`;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillText(text, sx, sy);
+  }
+
+  // ── Hit targets (rebuilt every frame) ────────────────────
+  let hitTargets: { sx: number; sy: number; r: number; href: string }[] = [];
+
+  // ── Main draw ─────────────────────────────────────────────
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    hitTargets = [];
+
+    // Orbit ring — draw as projected polyline
+    const STEPS = 80;
+    ctx.beginPath();
+    for (let i = 0; i <= STEPS; i++) {
+      const a = (i / STEPS) * Math.PI * 2;
+      const [rx, ry, rz] = rotate(Math.cos(a) * R, 0, Math.sin(a) * R);
+      const [sx, sy] = project(rx, ry, rz);
+      i === 0 ? ctx.moveTo(sx, sy) : ctx.lineTo(sx, sy);
+    }
+    ctx.strokeStyle = '#c8c0ab';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 5]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Compute planet 3-D positions
+    type Body = { sx: number; sy: number; sc: number; rz: number; isSun?: boolean;
+                  color: string; hi: string; label: string; href: string; baseR: number };
+
+    const bodies: Body[] = [];
+
+    // Sun
+    const [sunX, sunY, sunSc] = project(...rotate(0, 0, 0));
+    bodies.push({ sx: sunX, sy: sunY, sc: sunSc, rz: 0, isSun: true,
+                  color: SUN.color, hi: SUN.hi, label: SUN.label, href: SUN.href, baseR: SUN.r });
+
+    // Planets
+    for (const p of planets) {
+      const [rx, ry, rz] = rotate(Math.cos(p.angle) * R, 0, Math.sin(p.angle) * R);
+      const [sx, sy, sc] = project(rx, ry, rz);
+      bodies.push({ sx, sy, sc, rz, color: p.color, hi: p.hi,
+                    label: p.label, href: p.href, baseR: 7 });
+    }
+
+    // Painter's algorithm: far (positive rz) first
+    bodies.sort((a, b) => b.rz - a.rz);
+
+    for (const b of bodies) {
+      const r  = Math.max(b.isSun ? 6 : 3, b.baseR * b.sc);
+      const fs = Math.max(9, Math.round(11 * b.sc));
+      drawSphere(b.sx, b.sy, r, b.color, b.hi);
+      drawLabel(b.label, b.sx, b.sy + r + 3, fs, b.color);
+      hitTargets.push({ sx: b.sx, sy: b.sy, r: r + fs + 10, href: b.href });
+    }
+  }
+
+  // ── Animation loop ────────────────────────────────────────
+  function tick() {
+    for (const p of planets) p.angle += SPEED;
+    draw();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // ── Drag + click ──────────────────────────────────────────
+  let dragging = false, moved = false, lx = 0, ly = 0;
+
+  function startDrag(x: number, y: number) {
+    dragging = true; moved = false; lx = x; ly = y;
+    canvas!.classList.add('dragging');
+  }
+
+  function moveDrag(x: number, y: number) {
+    if (!dragging) return;
+    const dx = x - lx, dy = y - ly;
+    if (Math.abs(dx) + Math.abs(dy) > 2) moved = true;
+    rotY += dx * 0.007;
+    rotX -= dy * 0.007;
+    rotX = Math.max(0.05, Math.min(Math.PI * 0.9, rotX));
+    lx = x; ly = y;
+  }
+
+  function endDrag(cx: number, cy: number) {
+    if (dragging && !moved) {
+      const rect = canvas!.getBoundingClientRect();
+      const mx = cx - rect.left, my = cy - rect.top;
+      for (const t of hitTargets) {
+        if (Math.hypot(mx - t.sx, my - t.sy) < t.r) {
+          window.location.href = t.href;
+          break;
+        }
+      }
+    }
+    dragging = false;
+    canvas!.classList.remove('dragging');
+  }
+
+  canvas.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+  window.addEventListener('mouseup',   e => endDrag(e.clientX, e.clientY));
+
+  canvas.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    startDrag(t.clientX, t.clientY);
+  }, { passive: true });
+  window.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    moveDrag(t.clientX, t.clientY);
+  }, { passive: true });
+  window.addEventListener('touchend', e => {
+    const t = e.changedTouches[0];
+    endDrag(t.clientX, t.clientY);
+  });
+})();
+</script>
+
 <style>
+  /* ── Page shell ─────────────────────────────────────────── */
+
   .home-main {
     padding: 0;
     height: calc(100vh - 200px);
@@ -71,10 +301,142 @@ function formatDate(date: string) {
     height: 100%;
   }
 
+  /* ── Left column ────────────────────────────────────────── */
+
   .home-left {
     padding: 2rem;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
   }
+
+  .left-upper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .left-lower {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .left-section-title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #1C1D21;
+    margin: 0 0 1.4rem 0;
+    text-transform: none;
+    flex-shrink: 0;
+  }
+
+  .left-section-title--lower {
+    margin-top: 1.2rem;
+  }
+
+  /* ── Site News ──────────────────────────────────────────── */
+
+  .news-card {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .news-card-img {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+    height: 80px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  .news-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .news-card-date-title {
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: #1C1D21;
+    line-height: 1.3;
+  }
+
+  .news-card-text {
+    font-size: 1rem;
+    color: #1C1D21;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .news-link {
+    font-family: monospace;
+    font-weight: 600;
+    color: #1d4ed8;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .news-link:hover { opacity: 0.65; }
+
+  .left-divider {
+    width: 100%;
+    color: #1C1D21;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* ── 3-D Solar System ───────────────────────────────────── */
+
+  .solar-system {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /* Canvas is larger than its container on all sides so labels
+     never hit the canvas edge regardless of rotation angle.
+     PAD_X=60 left/right, PAD_T=20 top, PAD_B=80 bottom — must
+     match the JS constants below. */
+  .solar-canvas {
+    display: block;
+    position: absolute;
+    top: -20px;
+    left: -60px;
+    width: calc(100% + 120px);
+    height: calc(100% + 100px);
+    cursor: grab;
+  }
+
+  .solar-canvas.dragging {
+    cursor: grabbing;
+  }
+
+  .solar-noscript {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    font-family: monospace;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .solar-noscript a {
+    text-decoration: none;
+  }
+
+  /* ── Right column: Featured Catalogue ──────────────────── */
 
   .home-right {
     padding: 2rem 0.75rem;
@@ -111,9 +473,7 @@ function formatDate(date: string) {
     transition: opacity 0.2s ease;
   }
 
-  .featured-card:hover {
-    opacity: 0.75;
-  }
+  .featured-card:hover { opacity: 0.75; }
 
   .featured-card-img {
     width: 190px;
@@ -165,22 +525,13 @@ function formatDate(date: string) {
     transition: opacity 0.2s ease;
   }
 
-  .featured-view-all:hover {
-    opacity: 0.65;
-  }
+  .featured-view-all:hover { opacity: 0.65; }
+
+  /* ── Mobile ─────────────────────────────────────────────── */
 
   @media (max-width: 768px) {
-    .home-container {
-      grid-template-columns: 1fr;
-    }
-
-    .home-left {
-      display: none;
-    }
-
-    .home-right {
-      border-left: none;
-      padding: 1.5rem;
-    }
+    .home-container { grid-template-columns: 1fr; }
+    .home-left      { display: none; }
+    .home-right     { padding: 1.5rem; }
   }
 </style>
