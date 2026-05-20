@@ -21,11 +21,10 @@
   opacity: 0.65;
 }
 
-.lc-btn-home      { color: #7c3aed; }
-.lc-btn-catalogue { color: #c2410c; }
-.lc-btn-art       { color: #b91c1c; }
-.lc-btn-about     { color: #15803d; }
-.lc-btn-source    { color: #1d4ed8; }
+.lc-btn-home      { color: #b91c1c; }
+.lc-btn-catalogue { color: #15803d; }
+.lc-btn-about     { color: #1d4ed8; }
+.lc-btn-source    { color: #7c3aed; }
 
 @media (max-width: 768px) {
   .lc-header-icons {
