@@ -454,6 +454,12 @@ body.article-body {
   color: #474747;
 }
 
+.article-body-content a.lc-header-btn {
+  text-decoration: none;
+}
+
+.article-body-content a.lc-btn-source { color: #7c3aed; }
+
 .article-body-content strong {
   font-weight: 700;
 }
