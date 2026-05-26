@@ -75,6 +75,7 @@ function formatDate(date: string) {
                   src={article.frontmatter.image || '/images/rune-1.png'}
                   alt={article.frontmatter.title}
                   class="featured-card-img"
+                  style={article.frontmatter.imagePosition ? `object-position: ${article.frontmatter.imagePosition};` : undefined}
                 />
                 <div class="featured-card-body">
                   <h3 class="featured-card-title">{article.frontmatter.title}</h3>

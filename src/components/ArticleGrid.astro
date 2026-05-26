@@ -32,7 +32,7 @@ function formatDate(date: string) {
         <div class="ag-grid">
           {articles.map(article => (
             <a href={article.url} class="ag-card">
-              <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="ag-img" />
+              <img src={article.frontmatter.image || '/images/rune-1.png'} alt={article.frontmatter.title} class="ag-img" style={article.frontmatter.imagePosition ? `object-position: ${article.frontmatter.imagePosition};` : undefined} />
               <h3 class="ag-card-title">{article.frontmatter.title}</h3>
               <span class="ag-date">{formatDate(article.frontmatter.date)}</span>
             </a>

@@ -41,6 +41,7 @@ function formatDate(date: string) {
                   src={article.frontmatter.image || '/images/rune-1.png'}
                   alt={article.frontmatter.title}
                   class="cat-img"
+                  style={article.frontmatter.imagePosition ? `object-position: ${article.frontmatter.imagePosition};` : undefined}
                 />
                 <h3 class="cat-title">{article.frontmatter.title}</h3>
                 {(article.frontmatter.lede || article.frontmatter.description) && (
